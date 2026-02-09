@@ -1,67 +1,176 @@
-<section id="register" class="py-5">
-    <div class="container">
-        <h2 class="text-center section-title">سجل موهبتك الآن</h2>
-        <div class="card p-4 shadow-sm border-0 mx-auto" style="max-width: 600px;">
-            <form id="talentForm">
-                <div class="mb-3">
-                    <label class="form-label">اسم الطالب الثلاثي</label>
-                    <input type="text" name="fullName" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">الصف والشعبة</label>
-                    <input type="text" name="grade" class="form-control" placeholder="مثلاً: عاشر - 1" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">نوع الموهبة</label>
-                    <select name="talentType" class="form-select" required>
-                        <option value="أكاديمية">موهبة أكاديمية</option>
-                        <option value="أدبية">موهبة أدبية</option>
-                        <option value="فنية">موهبة فنية</option>
-                        <option value="تقنية">موهبة تقنية</option>
-                        <option value="رياضية">موهبة رياضية</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">وصف مختصر للموهبة</label>
-                    <textarea name="description" class="form-control" rows="3"></textarea>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">وسيلة التواصل (رقم هاتف أو إيميل)</label>
-                    <input type="text" name="contact" class="form-control" required>
-                </div>
-                <button type="submit" id="submitBtn" class="btn btn-register w-100">إرسال البيانات</button>
-            </form>
-            <div id="responseMessage" class="mt-3 text-center d-none"></div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اكتشف موهبتك | منصة المواهب المدرسية</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8f9fa; color: #333; scroll-behavior: smooth; }
+        .navbar { background-color: #5d3fd3; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .hero-section { 
+            background: linear-gradient(135deg, #6e8efb, #a777e3); 
+            color: white; padding: 100px 0; text-align: center;
+            border-bottom-left-radius: 50% 20px; border-bottom-right-radius: 50% 20px;
+        }
+        .btn-register { 
+            background-color: #ffcf00; color: #333 !important; font-weight: bold; 
+            padding: 15px 40px; border-radius: 50px; font-size: 1.2rem;
+            transition: 0.3s; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-decoration: none; display: inline-block;
+        }
+        .btn-register:hover { background-color: #fff; transform: scale(1.05); }
+        .section-title { position: relative; padding-bottom: 15px; margin-bottom: 40px; font-weight: 700; text-align: center; }
+        .section-title::after { 
+            content: ''; position: absolute; bottom: 0; left: 50%; 
+            transform: translateX(-50%); width: 60px; height: 4px; background: #5d3fd3; 
+        }
+        .talent-card { 
+            background: white; border-radius: 15px; padding: 25px; height: 100%;
+            transition: 0.3s; border: 1px solid #eee; text-align: center;
+        }
+        .talent-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .talent-icon { font-size: 3rem; color: #5d3fd3; margin-bottom: 15px; }
+        footer { background: #333; color: white; padding: 40px 0; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">✨ اكتشف موهبتك</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">عن الموقع</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories">المجالات</a></li>
+                    <li class="nav-item"><a class="nav-link text-warning fw-bold" href="#register-section">سجل الآن</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-</section>
+    </nav>
 
-<script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyLbhHgyuexF9Rmzi0i2-UXZsATB2fhdlW89Pvf8491MX32SKDASPtLSWPO02uO1hp9/exec';
-    const form = document.getElementById('talentForm');
-    const btn = document.getElementById('submitBtn');
-    const msg = document.getElementById('responseMessage');
+    <header class="hero-section">
+        <div class="container">
+            <h1 class="display-3 fw-bold mb-3">مواهبنا تشرق</h1>
+            <p class="lead mb-5">المنصة الرسمية لاكتشاف وتوثيق إبداعات طلابنا</p>
+            <a href="#register-section" class="btn btn-register">سجل موهبتك الآن <i class="fas fa-rocket ms-2"></i></a>
+        </div>
+    </header>
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        btn.disabled = true;
-        btn.innerHTML = "جاري الإرسال...";
-        
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-            .then(response => {
-                msg.innerHTML = "✅ تم تسجيل موهبتك بنجاح! شكراً لك.";
-                msg.classList.remove('d-none', 'text-danger');
-                msg.classList.add('text-success');
-                form.reset();
-                btn.disabled = false;
-                btn.innerHTML = "إرسال البيانات";
-            })
-            .catch(error => {
-                msg.innerHTML = "❌ عذراً، حدث خطأ ما. حاول مرة أخرى.";
-                msg.classList.remove('d-none', 'text-success');
-                msg.classList.add('text-danger');
-                btn.disabled = false;
-                btn.innerHTML = "إرسال البيانات";
-            });
-    });
-</script>
+    <section id="categories" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title">مجالات الإبداع</h2>
+            <div class="row g-4">
+                <div class="col-md-3 col-6">
+                    <div class="talent-card">
+                        <i class="fas fa-laptop-code talent-icon"></i>
+                        <h5>تقنية</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="talent-card">
+                        <i class="fas fa-palette talent-icon"></i>
+                        <h5>فنية</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="talent-card">
+                        <i class="fas fa-pen-fancy talent-icon"></i>
+                        <h5>أدبية</h5>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="talent-card">
+                        <i class="fas fa-running talent-icon"></i>
+                        <h5>رياضية</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="register-section" class="py-5">
+        <div class="container">
+            <h2 class="section-title">نموذج التسجيل الإلكتروني</h2>
+            <div class="card p-4 shadow-sm border-0 mx-auto" style="max-width: 600px;">
+                <form id="talentForm">
+                    <div class="mb-3">
+                        <label class="form-label">اسم الطالب</label>
+                        <input type="text" name="fullName" class="form-control" placeholder="الاسم ثلاثي" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">الصف</label>
+                        <input type="text" name="grade" class="form-control" placeholder="مثال: 10/1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">نوع الموهبة</label>
+                        <select name="talentType" class="form-select" required>
+                            <option value="">اختر النوع...</option>
+                            <option value="تقنية">تقنية (برمجة/روبوت)</option>
+                            <option value="فنية">فنية (رسم/تصميم)</option>
+                            <option value="أدبية">أدبية (شعر/كتابة)</option>
+                            <option value="رياضية">رياضية</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">تحدث عن موهبتك</label>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">رقم التواصل</label>
+                        <input type="text" name="contact" class="form-control" placeholder="رقم الهاتف" required>
+                    </div>
+                    <button type="submit" id="submitBtn" class="btn btn-primary w-100 fw-bold py-3">إرسال البيانات للجدول</button>
+                </form>
+                <div id="responseMessage" class="mt-3 text-center d-none"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center">
+            <p>© 2026 منصة اكتشف موهبتك - جميع الحقوق محفوظة للمدرسة</p>
+        </div>
+    </footer>
+
+    <script>
+        // ضع الرابط الذي حصلت عليه من "Deploy" في Apps Script هنا
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyLbhHgyuexF9Rmzi0i2-UXZsATB2fhdlW89Pvf8491MX32SKDASPtLSWPO02uO1hp9/exec';
+        const form = document.getElementById('talentForm');
+        const btn = document.getElementById('submitBtn');
+        const msg = document.getElementById('responseMessage');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.innerHTML = "جاري الحفظ في جوجل شيت...";
+            
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    msg.innerHTML = "✅ تم استلام بياناتك بنجاح في جدول جوجل!";
+                    msg.className = "mt-3 text-center text-success fw-bold";
+                    msg.classList.remove('d-none');
+                    form.reset();
+                    btn.disabled = false;
+                    btn.innerHTML = "إرسال البيانات للجدول";
+                })
+                .catch(error => {
+                    msg.innerHTML = "❌ حدث خطأ في الاتصال. تأكد من إعدادات الـ Apps Script.";
+                    msg.className = "mt-3 text-center text-danger fw-bold";
+                    msg.classList.remove('d-none');
+                    btn.disabled = false;
+                    btn.innerHTML = "حاول مرة أخرى";
+                });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
