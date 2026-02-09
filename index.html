@@ -1,0 +1,67 @@
+<section id="register" class="py-5">
+    <div class="container">
+        <h2 class="text-center section-title">سجل موهبتك الآن</h2>
+        <div class="card p-4 shadow-sm border-0 mx-auto" style="max-width: 600px;">
+            <form id="talentForm">
+                <div class="mb-3">
+                    <label class="form-label">اسم الطالب الثلاثي</label>
+                    <input type="text" name="fullName" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">الصف والشعبة</label>
+                    <input type="text" name="grade" class="form-control" placeholder="مثلاً: عاشر - 1" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">نوع الموهبة</label>
+                    <select name="talentType" class="form-select" required>
+                        <option value="أكاديمية">موهبة أكاديمية</option>
+                        <option value="أدبية">موهبة أدبية</option>
+                        <option value="فنية">موهبة فنية</option>
+                        <option value="تقنية">موهبة تقنية</option>
+                        <option value="رياضية">موهبة رياضية</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">وصف مختصر للموهبة</label>
+                    <textarea name="description" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">وسيلة التواصل (رقم هاتف أو إيميل)</label>
+                    <input type="text" name="contact" class="form-control" required>
+                </div>
+                <button type="submit" id="submitBtn" class="btn btn-register w-100">إرسال البيانات</button>
+            </form>
+            <div id="responseMessage" class="mt-3 text-center d-none"></div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyLbhHgyuexF9Rmzi0i2-UXZsATB2fhdlW89Pvf8491MX32SKDASPtLSWPO02uO1hp9/exec';
+    const form = document.getElementById('talentForm');
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('responseMessage');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerHTML = "جاري الإرسال...";
+        
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                msg.innerHTML = "✅ تم تسجيل موهبتك بنجاح! شكراً لك.";
+                msg.classList.remove('d-none', 'text-danger');
+                msg.classList.add('text-success');
+                form.reset();
+                btn.disabled = false;
+                btn.innerHTML = "إرسال البيانات";
+            })
+            .catch(error => {
+                msg.innerHTML = "❌ عذراً، حدث خطأ ما. حاول مرة أخرى.";
+                msg.classList.remove('d-none', 'text-success');
+                msg.classList.add('text-danger');
+                btn.disabled = false;
+                btn.innerHTML = "إرسال البيانات";
+            });
+    });
+</script>
